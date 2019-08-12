@@ -6,6 +6,7 @@ def parse_parameters(args):
     from .lib.source_reader.file_source_reader import FileSourceReader
     from .lib.parser.regex_parser import RegexParser
     from .lib.interface import AbstractDrawer
+    from .lib.drawer.turtle_drawer import TurtleDrawer
     class Drawer(AbstractDrawer):
         def select_pen(self, pen_num):
             pass
@@ -24,8 +25,10 @@ def parse_parameters(args):
 
         def draw_line(self, direction, distance):
             pass
-    reader = FileSourceReader(RegexParser(Drawer()), optional_file_name=args.infile)
+    reader = FileSourceReader(RegexParser(
+        TurtleDrawer()), optional_file_name=args.infile)
     reader.go()
+
 
 def main():
     import argparse
@@ -35,10 +38,8 @@ def main():
         prog='tigr', description="Tiny Interpreted Graphics language (TIGr)")
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-i', '--interactive', action='store_true')
-    group.add_argument('infile', nargs='?',
-                       type=str, default=sys.stdin)
-    group.add_argument('outfile', nargs='?',
-                       type=str, default=sys.stdout)
+    group.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+    group.add_argument('outfile', nargs='?', type=argparse.FileType('w'), default=sys.stdout)
     group.add_argument('-c', '--config', action='store')
     group.add_argument('-p', '--parser', action='store')
     group.add_argument('-o', '--output', action='store')
@@ -47,5 +48,11 @@ def main():
     if args.interactive:
         invoke_interactive(args)
     else:
+        print(args.infile)
+        print(args.outfile)
+        if not args.infile:
+            raise ValueError()
+        if not args.outfile:
+            raise ValueError()
         print(args)
         parse_parameters(args)
