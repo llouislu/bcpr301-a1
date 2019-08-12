@@ -19,12 +19,10 @@ class TurtleDrawer(AbstractDrawer):
         self.turtle.penup()
 
     def go_along(self, along):
-        self.pen_up()
         x, y = self.pos
         self.turtle.goto(x+along, y)
 
     def go_down(self, down):
-        self.pen_up()
         x, y = self.pos
         self.turtle.goto(x, y+down)
 
