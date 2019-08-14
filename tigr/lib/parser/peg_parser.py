@@ -1,6 +1,6 @@
 from parsimonious import Grammar
 from parsimonious.nodes import NodeVisitor
-from tigr.lib.parser.base_parser import BaseParser
+from tigr.lib.interface import AbstractParser
 
 
 class TigrVisitor(NodeVisitor):
@@ -21,7 +21,7 @@ class TigrVisitor(NodeVisitor):
         return visited_children or node
 
 
-class PegParser(BaseParser):
+class PegParser(AbstractParser):
     def __init__(self, drawer):
         super().__init__(drawer)
         self.drawer = drawer
@@ -45,3 +45,24 @@ class PegParser(BaseParser):
             ast = self.peg_grammar.parse(line)
             self.command, self.data = self.peg_visitor(ast)
             self.draw()
+
+    def is_float(self, string):
+        try:
+            float(string)
+        except:
+            return False
+        return True
+
+    def draw(self):
+        if self.command not in self.no_parameter_commands:
+            if not self.is_float(self.data):
+                raise ValueError()
+            self.data = float(self.data)
+
+        if self.command in self.no_parameter_commands:
+            self.no_parameter_commands[self.command]()
+        elif self.command in self.one_parameter_commands:
+            self.one_parameter_commands[self.command](self.data)
+        elif self.command in self.draw_commands:
+            self.draw_commands[self.command](
+                self.draw_degrees[self.command], self.data)
