@@ -30,20 +30,48 @@ class PegParser(AbstractParser):
         self.data = 0
 
         self.peg_grammar = Grammar(r'''
-            line        = statement ws? comment? ws
+            line = statement ws? comment? ws
             statement   = directive ws? parameter?
             directive   = ~"P|X|Y|D|W|N|E|S|U"
-            parameter   = ~"\d{0,}\.{0,1}\d{0,}"
+            parameter   = ~"-?\d{0,}\.{0,1}\d{0,}"
             comment     = ~"#.*"
             ws          = ~"\s*"
         ''')
         self.peg_visitor = TigrVisitor()
 
+        self.no_parameter_commands = {
+            'D': self.drawer.pen_down,
+            'U': self.drawer.pen_up
+        }
+
+        self.one_parameter_commands = {
+            'P': self.drawer.select_pen,
+            # 'G': self.drawer.goto,
+            'X': self.drawer.go_along,
+            'Y': self.drawer.go_down,
+        }
+        self.draw_commands = {
+            'N': self.drawer.draw_line,
+            'E': self.drawer.draw_line,
+            'S': self.drawer.draw_line,
+            'W': self.drawer.draw_line,
+        }
+        self.draw_degrees = {
+            'N': 0,
+            'E': 90,
+            'S': 180,
+            'W': 270
+        }
+
     def parse(self, raw_source):
         for line in raw_source:
             line = line.strip()
+            if not line:
+                continue
             ast = self.peg_grammar.parse(line)
-            self.command, self.data = self.peg_visitor(ast)
+            print(self.peg_visitor)
+            self.command, self.data = self.peg_visitor.visit(ast)
+            # self.command, self.data = self.peg_visitor(ast).visit()
             self.draw()
 
     def is_float(self, string):
