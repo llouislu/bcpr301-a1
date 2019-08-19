@@ -5,6 +5,7 @@ def invoke_interactive(args):
 def parse_parameters(args):
     from .lib.source_reader.file_source_reader import FileSourceReader
     from .lib.parser.regex_parser import RegexParser
+    from .lib.parser.peg_parser import PegParser 
     from .lib.interface import AbstractDrawer
     from .lib.drawer.turtle_drawer import TurtleDrawer
     class Drawer(AbstractDrawer):
@@ -25,7 +26,7 @@ def parse_parameters(args):
 
         def draw_line(self, direction, distance):
             pass
-    reader = FileSourceReader(RegexParser(
+    reader = FileSourceReader(PegParser(
         TurtleDrawer()), optional_file_name=args.infile)
     reader.go()
 
