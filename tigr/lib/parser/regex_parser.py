@@ -4,7 +4,7 @@ import re
 
 class RegexParser(AbstractParser):
     line_pattern = re.compile(
-        r'^(P|X|Y|D|W|N|E|S|U)\s+(\d{0,}\.{0,1}\d{0,})\s{0,}(?=#{0,1})')
+        r'^(P|X|Y|D|W|N|E|S|U)\s+(-?\d{0,}\.{0,1}\d{0,})\s{0,}(?=#{0,1})')
 
     def __init__(self, drawer):
         super().__init__(drawer)
