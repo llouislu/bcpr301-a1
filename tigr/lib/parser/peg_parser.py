@@ -57,10 +57,10 @@ class PegParser(AbstractParser):
             'W': self.drawer.draw_line,
         }
         self.draw_degrees = {
-            'N': 0,
-            'E': 90,
-            'S': 180,
-            'W': 270
+            'N': 90 * 1,
+            'E': 0,
+            'S': 90 * 3,
+            'W': 90 * 2
         }
 
     def parse(self, raw_source):
