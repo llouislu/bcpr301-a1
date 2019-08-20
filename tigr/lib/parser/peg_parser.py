@@ -69,9 +69,7 @@ class PegParser(AbstractParser):
             if not line:
                 continue
             ast = self.peg_grammar.parse(line)
-            print(self.peg_visitor)
             self.command, self.data = self.peg_visitor.visit(ast)
-            # self.command, self.data = self.peg_visitor(ast).visit()
             self.draw()
 
     def is_float(self, string):
