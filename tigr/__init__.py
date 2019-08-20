@@ -41,16 +41,28 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog='tigr', description="Tiny Interpreted Graphics language (TIGr)")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('-i', '--interactive', action='store_true')
-    group.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin, help='input script')
-    group.add_argument('outfile', nargs='?', type=argparse.FileType('w'), default=sys.stdout, help='output file. draw on window if omitted')
-    group.add_argument('-c', '--config', action='store', help='use configuration from a file')
-    group.add_argument('-p', '--parser', action='store', help='specify a parser')
-    group.add_argument('-d', '--drawer', action='store', help='specify a drawer')
-    group.add_argument('-pn', '--pen', action='store', help='specify a pen number')
+    group = parser.add_argument_group()
+    group.add_argument('-i', '--interactive',
+                       action='store_true', default=False)
+    group.add_argument('-c', '--config', action='store',
+                       help='use configuration from a file', default='')
+    group.add_argument('-p', '--parser', action='store',
+                       help='specify a parser', default='peg')
+    group.add_argument('-d', '--drawer', action='store',
+                       help='specify a drawer', default='turtle')
+    group.add_argument('-pn', '--pen', action='store',
+                       help='specify a pen number', default='1')
+    group.add_argument('infile', nargs='?', type=argparse.FileType(
+        'r'), default=sys.stdin, help='input script')
+    group.add_argument('outfile', nargs='?', type=argparse.FileType(
+        'w'), default=sys.stdout, help='output file. draw on window if omitted')
 
     args = parser.parse_args()
+
+    # read config file here as dict
+    # convert to argparse.Namespace #argparse.Namespace(**dict)
+    # override args from config file
+    #
     if args.interactive:
         invoke_interactive(args)
     else:
