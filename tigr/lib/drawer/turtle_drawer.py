@@ -1,36 +1,32 @@
 import turtle
 from tigr.lib.interface import AbstractDrawer
 
-class TurtleDrawer(AbstractDrawer):
+class TurtleDrawer(AbstractDrawer, turtle.Turtle):
     def __init__(self):
-        turtle.mode(mode='logo')
-        self.turtle = turtle.Turtle()
-
-    def __del__(self):
-        turtle.mainloop()
+        super().__init__()
+        # super(turtle.Screen, self).__init__()
+        # super(AbstractDrawer, self).__init__()
+        # self.mode = 'logo'
+        self.__name__ = 'turtle'
 
     def select_pen(self, pen_num):
         pass
 
     def pen_down(self):
-        self.turtle.pendown()
+        self.pendown()
 
     def pen_up(self):
-        self.turtle.penup()
+        self.penup()
 
     def go_along(self, along):
-        x, y = self.pos
-        self.turtle.goto(x+along, y)
+        x, y = self.pos()
+        self.goto(x+along, y)
 
     def go_down(self, down):
-        x, y = self.pos
-        self.turtle.goto(x, y+down)
+        x, y = self.pos()
+        self.goto(x, y+down)
 
     def draw_line(self, direction, distance):
         self.pen_down()
-        self.turtle.setheading(direction)
-        self.turtle.forward(distance)
-
-    @property
-    def pos(self):
-        return self.turtle.pos()
+        self.setheading(direction)
+        self.forward(distance)
