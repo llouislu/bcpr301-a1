@@ -25,12 +25,6 @@ class RegexParser(AbstractParser):
             'S': self.drawer.draw_line,
             'W': self.drawer.draw_line,
         }
-        self.draw_degrees = {
-            'N': 0,
-            'E': 90,
-            'S': 180,
-            'W': 270
-        }
 
     def parse(self, raw_source):
         for line in raw_source:
@@ -60,4 +54,4 @@ class RegexParser(AbstractParser):
             self.one_parameter_commands[self.command](self.data)
         elif self.command in self.draw_commands:
             self.draw_commands[self.command](
-                self.draw_degrees[self.command], self.data)
+                self.command, self.data)

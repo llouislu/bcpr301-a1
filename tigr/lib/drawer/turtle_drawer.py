@@ -8,6 +8,13 @@ class TurtleDrawer(AbstractDrawer, turtle.Turtle):
         # super(AbstractDrawer, self).__init__()
         # self.mode = 'logo'
         self.__name__ = 'turtle'
+        self.draw_degrees = {
+            'N': 90 * 1,
+            'E': 90 * 0,
+            'S': 90 * 3,
+            'W': 90 * 2
+        }
+
 
     def select_pen(self, pen_num):
         pass
@@ -28,5 +35,5 @@ class TurtleDrawer(AbstractDrawer, turtle.Turtle):
 
     def draw_line(self, direction, distance):
         self.pen_down()
-        self.setheading(direction)
+        self.setheading(self.draw_degrees[direction])
         self.forward(distance)

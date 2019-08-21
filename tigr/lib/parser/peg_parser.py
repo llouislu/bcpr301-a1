@@ -91,4 +91,4 @@ class PegParser(AbstractParser):
             self.one_parameter_commands[self.command](self.data)
         elif self.command in self.draw_commands:
             self.draw_commands[self.command](
-                self.draw_degrees[self.command], self.data)
+                self.command, self.data)
