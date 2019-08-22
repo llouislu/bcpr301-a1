@@ -11,22 +11,24 @@ class PromptSourceReader(cmd.Cmd, AbstractSourceReader):
         self.file_name = optional_file_name
         self.source = []
         super().__init__()
-        self.alias_commands = {
-            'quit': self.do_exit,
-            'bye': self.do_exit,
-            'q': self.do_exit,
-            'halt': self.do_exit
-        }
-
-    def do_exit(self, *args):
-        return True
+        self.alias_commands = set(['quit', 'bye', 'q', 'halt'])
+        # self.alias_commands = {
+        #     'quit': self.do_exit,
+        #     'bye': self.do_exit,
+        #     'q': self.do_exit,
+        #     'halt': self.do_exit
+        # }
 
     def onecmd(self, line):
         line = line.strip()
         if line in self.alias_commands:
             self.alias_commands[line]()
         else:
-            self.parser.parse([line])
+            try:
+                line_uppercased = line.upper()
+                self.parser.parse([line_uppercased])
+            except:
+                print('you have a syntax error in "{}"'.format(line))
 
     def go(self):
         self.cmdloop()
