@@ -12,6 +12,7 @@ def parse_parameters(args):
     from .lib.interface import AbstractDrawer
     from .lib.drawer.turtle_drawer import TurtleDrawer
 
+
     class Drawer(AbstractDrawer):
         def select_pen(self, pen_num):
             pass
@@ -30,7 +31,7 @@ def parse_parameters(args):
 
         def draw_line(self, direction, distance):
             pass
-    reader = PromptSourceReader(PegParser(
+    reader = FileSourceReader(PegParser(
         TurtleDrawer()), optional_file_name=args.infile)
     reader.go()
 
@@ -38,9 +39,11 @@ def parse_parameters(args):
 def main():
     import argparse
     import sys
+    from .lib.config.config_reader import Config
 
     parser = argparse.ArgumentParser(
         prog='tigr', description="Tiny Interpreted Graphics language (TIGr)")
+    print(args = parser.parse_args())
     group = parser.add_argument_group()
     group.add_argument('-i', '--interactive',
                        action='store_true', default=False)
@@ -58,11 +61,15 @@ def main():
         'w'), default=sys.stdout, help='output file. draw on window if omitted')
 
     args = parser.parse_args()
+    print(args)
+    args_config = args.config
+    if args_config != '':
+        result = Config(args_config).readConfig()
+        args.parser = result["--parser"]
+        args.drawer = result["--drawer"]
+        args.pen = result["--pen"]
+    print(args)
 
-    # read config file here as dict
-    # convert to argparse.Namespace #argparse.Namespace(**dict)
-    # override args from config file
-    #
     if args.interactive:
         invoke_interactive(args)
     else:
