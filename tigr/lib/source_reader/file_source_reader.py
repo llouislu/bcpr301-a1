@@ -6,7 +6,4 @@ class FileSourceReader(AbstractSourceReader):
             line = line.strip()
             line = line.upper()
             self.source.append(line)
-        try:
             self.parser.parse(self.source)
-        except:
-            print('you have a syntax error on Line {}: "{}"'.format(line_number, line))
