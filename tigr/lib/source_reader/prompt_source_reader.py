@@ -12,17 +12,12 @@ class PromptSourceReader(cmd.Cmd, AbstractSourceReader):
         self.source = []
         super().__init__()
         self.alias_commands = set(['quit', 'bye', 'q', 'halt'])
-        # self.alias_commands = {
-        #     'quit': self.do_exit,
-        #     'bye': self.do_exit,
-        #     'q': self.do_exit,
-        #     'halt': self.do_exit
-        # }
 
     def onecmd(self, line):
         line = line.strip()
         if line in self.alias_commands:
-            self.alias_commands[line]()
+            print('bye bye!')
+            return True
         else:
             try:
                 line_uppercased = line.upper()
