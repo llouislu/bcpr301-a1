@@ -30,7 +30,7 @@ def parse_parameters(args):
 
         def draw_line(self, direction, distance):
             pass
-    reader = PromptSourceReader(PegParser(
+    reader = FileSourceReader(PegParser(
         TurtleDrawer()), optional_file_name=args.infile)
     reader.go()
 
