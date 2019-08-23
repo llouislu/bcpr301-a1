@@ -1,10 +1,15 @@
 from tigr.lib.interface import AbstractParser
 import re
 
+class ParseException(Exception):
+    pass
+
+class SkipParseException(Exception):
+    pass
 
 class RegexParser(AbstractParser):
     line_pattern = re.compile(
-        r'^(P|X|Y|D|W|N|E|S|U)\s+(-?\d{0,}\.{0,1}\d{0,})\s{0,}(?=#{0,1})')
+        r'^(P|X|Y|D|W|N|E|S|U)\s{0,}(-?\d{0,}\.{0,1}\d{0,})\s{0,}(?=#{0,1})')
 
     def __init__(self, drawer):
         super().__init__(drawer)
@@ -27,12 +32,31 @@ class RegexParser(AbstractParser):
         }
 
     def parse(self, raw_source):
-        for line in raw_source:
-            line = line.strip()
-            matched = self.line_pattern.match(line)
-            if not matched:
-                raise ValueError()
+        for line_number, line in enumerate(raw_source, 1):
+            try:
+                self.parse_line(line_number, line)
+            except ParseException:
+                print('you have a syntax error at Line {}: "{}"'.format(line_number, line))
+                continue
+            except SkipParseException:
+                continue
+
+    def parse_line(self, line_number, line):
+        line = line.strip()
+        line_uppercased = line.upper()
+        if not line_uppercased:
+            return
+        if line_uppercased.startswith('#'):
+            raise SkipParseException()
+        matched = self.line_pattern.match(line_uppercased)
+        if not matched:
+            raise ParseException()
+        else:
             self.command, self.data = matched.groups()
+            if self.command not in self.no_parameter_commands:
+                if not self.is_float(self.data):
+                    raise ParseException()
+                self.data = float(self.data)
             self.draw()
 
     def is_float(self, string):
@@ -43,10 +67,6 @@ class RegexParser(AbstractParser):
         return True
 
     def draw(self):
-        if self.command not in self.no_parameter_commands:
-            if not self.is_float(self.data):
-                raise ValueError()
-            self.data = float(self.data)
 
         if self.command in self.no_parameter_commands:
             self.no_parameter_commands[self.command]()
