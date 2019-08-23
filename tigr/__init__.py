@@ -1,39 +1,36 @@
 __version__ = '0.1'
 
 def invoke_interactive(args):
-    pass
+    from .lib.source_reader.prompt_source_reader import PromptSourceReader
+    if args.parser == 'peg':
+        from .lib.parser.peg_parser import PegParser as parser
+    elif args.parser == 'regex':
+        from .lib.parser.regex_parser import RegexParser as parser
+
+    if args.drawer == 'turtle':
+        from .lib.drawer.turtle_drawer import TurtleDrawer as drawer
+    elif args.drawer == 'tkinter':
+        from .lib.drawer.tkinter_drawer import TkinterDrawer as drawer
+
+    reader = PromptSourceReader(parser(drawer()), optional_file_name=None)
+    reader.go()
 
 
 def parse_parameters(args):
     from .lib.source_reader.file_source_reader import FileSourceReader
-    from .lib.source_reader.prompt_source_reader import PromptSourceReader
-    from .lib.parser.regex_parser import RegexParser
-    from .lib.parser.peg_parser import PegParser
-    from .lib.interface import AbstractDrawer
-    from .lib.drawer.turtle_drawer import TurtleDrawer
 
-    class Drawer(AbstractDrawer):
-        def select_pen(self, pen_num):
-            pass
+    if args.parser == 'peg':
+        from .lib.parser.peg_parser import PegParser as parser
+    elif args.parser == 'regex':
+        from .lib.parser.regex_parser import RegexParser as parser
 
-        def pen_down(self):
-            pass
+    if args.drawer == 'turtle':
+        from .lib.drawer.turtle_drawer import TurtleDrawer as drawer
+    elif args.drawer == 'tkinter':
+        from .lib.drawer.tkinter_drawer import TkinterDrawer as drawer
 
-        def pen_up(self):
-            pass
-
-        def go_along(self, along):
-            pass
-
-        def go_down(self, down):
-            pass
-
-        def draw_line(self, direction, distance):
-            pass
-    reader = FileSourceReader(PegParser(
-        TurtleDrawer()), optional_file_name=args.infile)
+    reader = FileSourceReader(parser(drawer()), optional_file_name=args.infile)
     reader.go()
-
 
 def main():
     import argparse
