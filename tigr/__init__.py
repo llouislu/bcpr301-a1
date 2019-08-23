@@ -1,35 +1,24 @@
 __version__ = '0.1'
 
-def invoke_interactive(args):
-    from .lib.source_reader.prompt_source_reader import PromptSourceReader
-    if args.parser == 'peg':
-        from .lib.parser.peg_parser import PegParser as parser
-    elif args.parser == 'regex':
-        from .lib.parser.regex_parser import RegexParser as parser
-
-    if args.drawer == 'turtle':
-        from .lib.drawer.turtle_drawer import TurtleDrawer as drawer
-    elif args.drawer == 'tkinter':
-        from .lib.drawer.tkinter_drawer import TkinterDrawer as drawer
-
-    reader = PromptSourceReader(parser(drawer()), optional_file_name=None)
-    reader.go()
-
-
-def parse_parameters(args):
-    from .lib.source_reader.file_source_reader import FileSourceReader
+def run(args):
+    file_name = None
+    if args.interactive:
+        from .lib.source_reader.prompt_source_reader import PromptSourceReader as Reader
+    else:
+        from .lib.source_reader.file_source_reader import FileSourceReader as Reader
+        file_name = args.infile
 
     if args.parser == 'peg':
-        from .lib.parser.peg_parser import PegParser as parser
+        from .lib.parser.peg_parser import PegParser as Parser
     elif args.parser == 'regex':
-        from .lib.parser.regex_parser import RegexParser as parser
+        from .lib.parser.regex_parser import RegexParser as Parser
 
     if args.drawer == 'turtle':
-        from .lib.drawer.turtle_drawer import TurtleDrawer as drawer
+        from .lib.drawer.turtle_drawer import TurtleDrawer as Drawer
     elif args.drawer == 'tkinter':
-        from .lib.drawer.tkinter_drawer import TkinterDrawer as drawer
+        from .lib.drawer.tkinter_drawer import TkinterDrawer as Drawer
 
-    reader = FileSourceReader(parser(drawer()), optional_file_name=args.infile)
+    reader = Reader(Parser(Drawer()), optional_file_name=file_name)
     reader.go()
 
 def main():
@@ -60,14 +49,4 @@ def main():
     # convert to argparse.Namespace #argparse.Namespace(**dict)
     # override args from config file
     #
-    if args.interactive:
-        invoke_interactive(args)
-    else:
-        print(args.infile)
-        print(args.outfile)
-        if not args.infile:
-            raise ValueError()
-        if not args.outfile:
-            raise ValueError()
-        print(args)
-        parse_parameters(args)
+    run(args)
