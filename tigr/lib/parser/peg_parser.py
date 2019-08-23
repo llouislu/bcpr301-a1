@@ -64,13 +64,20 @@ class PegParser(AbstractParser):
         }
 
     def parse(self, raw_source):
-        for line in raw_source:
-            line = line.strip()
-            if not line:
+        for line_number, line in enumerate(raw_source, 1):
+            line_uppercased = line.upper()
+            if not line_uppercased:
+                # skip empty line
                 continue
-            ast = self.peg_grammar.parse(line)
-            self.command, self.data = self.peg_visitor.visit(ast)
-            self.draw()
+            if line_uppercased.startswith('#'):
+                # skip comment line
+                continue
+            try:
+                ast = self.peg_grammar.parse(line_uppercased)
+                self.command, self.data = self.peg_visitor.visit(ast)
+                self.draw()
+            except Exception:
+                print('you have a syntax error at Line {}: {}'.format(line_number, line))
 
     def is_float(self, string):
         try:
