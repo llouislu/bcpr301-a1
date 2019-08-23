@@ -1,40 +1,25 @@
 __version__ = '0.1'
 
-def invoke_interactive(args):
-    pass
+def run(args):
+    file_name = None
+    if args.interactive:
+        from .lib.source_reader.prompt_source_reader import PromptSourceReader as Reader
+    else:
+        from .lib.source_reader.file_source_reader import FileSourceReader as Reader
+        file_name = args.infile
 
+    if args.parser == 'peg':
+        from .lib.parser.peg_parser import PegParser as Parser
+    elif args.parser == 'regex':
+        from .lib.parser.regex_parser import RegexParser as Parser
 
-def parse_parameters(args):
-    from .lib.source_reader.file_source_reader import FileSourceReader
-    from .lib.source_reader.prompt_source_reader import PromptSourceReader
-    from .lib.parser.regex_parser import RegexParser
-    from .lib.parser.peg_parser import PegParser
-    from .lib.interface import AbstractDrawer
-    from .lib.drawer.turtle_drawer import TurtleDrawer
+    if args.drawer == 'turtle':
+        from .lib.drawer.turtle_drawer import TurtleDrawer as Drawer
+    elif args.drawer == 'tkinter':
+        from .lib.drawer.tkinter_drawer import TkinterDrawer as Drawer
 
-
-    class Drawer(AbstractDrawer):
-        def select_pen(self, pen_num):
-            pass
-
-        def pen_down(self):
-            pass
-
-        def pen_up(self):
-            pass
-
-        def go_along(self, along):
-            pass
-
-        def go_down(self, down):
-            pass
-
-        def draw_line(self, direction, distance):
-            pass
-    reader = FileSourceReader(PegParser(
-        TurtleDrawer()), optional_file_name=args.infile)
+    reader = Reader(Parser(Drawer()), optional_file_name=file_name)
     reader.go()
-
 
 def main():
     import argparse
@@ -43,7 +28,6 @@ def main():
 
     parser = argparse.ArgumentParser(
         prog='tigr', description="Tiny Interpreted Graphics language (TIGr)")
-    print(args = parser.parse_args())
     group = parser.add_argument_group()
     group.add_argument('-i', '--interactive',
                        action='store_true', default=False)
@@ -61,6 +45,7 @@ def main():
         'w'), default=sys.stdout, help='output file. draw on window if omitted')
 
     args = parser.parse_args()
+
     print(args)
     args_config = args.config
     if args_config != '':
@@ -69,15 +54,8 @@ def main():
         args.drawer = result["--drawer"]
         args.pen = result["--pen"]
     print(args)
-
-    if args.interactive:
-        invoke_interactive(args)
-    else:
-        print(args.infile)
-        print(args.outfile)
-        if not args.infile:
-            raise ValueError()
-        if not args.outfile:
-            raise ValueError()
-        print(args)
-        parse_parameters(args)
+    # read config file here as dict
+    # convert to argparse.Namespace #argparse.Namespace(**dict)
+    # override args from config file
+    #
+    run(args)
