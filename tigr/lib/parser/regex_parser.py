@@ -9,7 +9,8 @@ class SkipParseException(Exception):
 
 class RegexParser(AbstractParser):
     line_pattern = re.compile(
-        r'^(P|X|Y|D|W|N|E|S|U)\s{0,}(-?\d{0,}\.{0,1}\d{0,})\s{0,}(?=#{0,1})')
+        #r'^(P|X|Y|D|W|N|E|S|U)\s{0,}(-?\d{0,}\.{0,1}\d{0,})\s{0,}(?=#{0,1})')
+        r'^(P|X|Y|D|W|N|E|S|U)$|^(P|X|Y|D|W|N|E|S|U)\s{1,}(-?\d{0,}\.{0,1}\d{0,})\s{0,}(?=#{0,1})')
 
     def __init__(self, drawer):
         super().__init__(drawer)
@@ -52,7 +53,9 @@ class RegexParser(AbstractParser):
         if not matched:
             raise ParseException()
         else:
-            self.command, self.data = matched.groups()
+            may_be_no_parameter_command, self.command, self.data = matched.groups()
+            if may_be_no_parameter_command:
+                self.command = may_be_no_parameter_command
             if self.command not in self.no_parameter_commands:
                 if not self.is_float(self.data):
                     raise ParseException()
