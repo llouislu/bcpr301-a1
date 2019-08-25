@@ -19,11 +19,7 @@ class PromptSourceReader(cmd.Cmd, AbstractSourceReader):
             print('bye bye!')
             return True
         else:
-            try:
-                line_uppercased = line.upper()
-                self.parser.parse([line_uppercased])
-            except:
-                print('you have a syntax error in "{}"'.format(line))
+            self.parser.parse([line])
 
     def go(self):
         self.cmdloop()
