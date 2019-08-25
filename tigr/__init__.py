@@ -18,7 +18,14 @@ def run(args):
     elif args.drawer == 'tkinter':
         from .lib.drawer.tkinter_drawer import TkinterDrawer as Drawer
 
-    reader = Reader(Parser(Drawer()), optional_file_name=file_name)
+    pen_config = None
+    if args.pen:
+        from .lib.drawer.pen_config import pen_config
+        if args.pen.isdigit() and int(args.pen) in pen_config:
+            pen_config['default'] = pen_config[int(args.pen)]
+        else:
+            ValueError('you have pen config is incorrect!')
+    reader = Reader(Parser(Drawer(pen_config=pen_config)), optional_file_name=file_name)
     reader.go()
 
 def main():
