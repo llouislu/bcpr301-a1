@@ -63,8 +63,10 @@ def main():
             pen = result["pen"]
             if (type(pen) == int):
                 pen = str(pen)
-            args.pen =  pen
+            args.pen = pen
             run(args)
         except ConfigException as e:
             print(e)
+    else:
+        run(args)
 
