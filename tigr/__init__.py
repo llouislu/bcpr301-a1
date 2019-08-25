@@ -62,9 +62,9 @@ def main():
     if args_config != '':
         try:
             result = Config(args_config).readConfig()
-            args.parser = result["--parser"]
-            args.drawer = result["--drawer"]
-            pen = result["--pen"]
+            args.parser = result["parser"]
+            args.drawer = result["drawer"]
+            pen = result["pen"]
             if (type(pen) == int):
                 pen = str(pen)
             args.pen =  pen
