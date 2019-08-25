@@ -27,8 +27,9 @@ class TurtleDrawer(AbstractDrawer, turtle.Turtle):
         pen_num = int(pen_num)
         if int(pen_num) not in self.pen_config:
             print('invalid pen number: {}'.format(pen_num))
-        self.pencolor(self.pen_config[int(pen_num)]['color'])
-        self.pensize(self.pen_config[int(pen_num)]['size'])
+        else:
+            self.pencolor(self.pen_config[int(pen_num)]['color'])
+            self.pensize(self.pen_config[int(pen_num)]['size'])
 
     def pen_down(self):
         self.pendown()
