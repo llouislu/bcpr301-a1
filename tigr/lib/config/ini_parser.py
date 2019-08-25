@@ -1,5 +1,3 @@
-
-
 class IniPaser:
     def __init__(self, file):
         self.file = file
@@ -12,7 +10,3 @@ class IniPaser:
         for k, v in config.items('default'):
             result[k] = v
         return result
-#
-# if __name__ == '__main__':
-#     parser = IniPaser('config.ini')
-#     print(parser.readFile())

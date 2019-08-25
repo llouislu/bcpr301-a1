@@ -52,18 +52,25 @@ def main():
 
     args = parser.parse_args()
 
-    from .lib.config.config_reader import Config
-    print(args)
-    args_config = args.config
-    if args_config != '':
-        result = Config(args_config).readConfig()
-        args.parser = result["--parser"]
-        args.drawer = result["--drawer"]
-        args.pen = result["--pen"]
-    print(args)
-
     # read config file here as dict
     # convert to argparse.Namespace #argparse.Namespace(**dict)
     # override args from config file
     #
-    run(args)
+    from .lib.config.config_reader import Config
+    from .lib.config.ConfigException import ConfigException
+    args_config = args.config
+    if args_config != '':
+        try:
+            result = Config(args_config).readConfig()
+            args.parser = result["--parser"]
+            args.drawer = result["--drawer"]
+            pen = result["--pen"]
+            if (type(pen) == int):
+                pen = str(pen)
+            args.pen =  pen
+            run(args)
+        except ConfigException as e:
+            print(e)
+
+
+
