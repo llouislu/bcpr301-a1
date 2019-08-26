@@ -47,8 +47,6 @@ def main():
                        help='specify a pen number', default='1')
     group.add_argument('infile', nargs='?', type=argparse.FileType(
         'r'), default=sys.stdin, help='input script')
-    group.add_argument('outfile', nargs='?', type=argparse.FileType(
-        'w'), default=sys.stdout, help='output file. draw on window if omitted')
 
     args = parser.parse_args()
 
