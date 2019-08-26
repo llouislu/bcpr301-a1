@@ -40,11 +40,11 @@ def main():
     group.add_argument('-c', '--config', action='store',
                        help='use configuration from a file', default='')
     group.add_argument('-p', '--parser', action='store',
-                       help='specify a parser', default='peg')
+                       help='specify a parser', choices=['regex', 'peg'], default='peg')
     group.add_argument('-d', '--drawer', action='store',
-                       help='specify a drawer', default='turtle')
+                       help='specify a drawer', choices=['tkinter', 'turtle'], default='turtle')
     group.add_argument('-pn', '--pen', action='store',
-                       help='specify a pen number', default='1')
+                       help='specify a pen number', choices=[str(i) for i in range(1,11)], default='1')
     group.add_argument('infile', nargs='?', type=argparse.FileType(
         'r'), default=sys.stdin, help='input script file or stream from stdin')
 
