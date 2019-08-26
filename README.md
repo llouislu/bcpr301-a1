@@ -36,7 +36,23 @@ pip install -r requirements.txt
 
 ## Usage
 ```
-python run.py <infile> <output> --arg1 foo --arg2 bar
+usage: tigr [-h] [-i] [-c CONFIG] [-p PARSER] [-d DRAWER] [-pn PEN] [infile]
+
+Tiny Interpreted Graphics language (TIGr)
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+  -i, --interactive     go to interactive mode is this flag is set
+  -c CONFIG, --config CONFIG
+                        use configuration from a file
+  -p PARSER, --parser PARSER
+                        specify a parser
+  -d DRAWER, --drawer DRAWER
+                        specify a drawer
+  -pn PEN, --pen PEN    specify a pen number
+  infile                input script file or stream from stdin
+
 ```
 
 ## High-Level Execution Flow
