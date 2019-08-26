@@ -46,7 +46,7 @@ def main():
     group.add_argument('-pn', '--pen', action='store',
                        help='specify a pen number', default='1')
     group.add_argument('infile', nargs='?', type=argparse.FileType(
-        'r'), default=sys.stdin, help='input script')
+        'r'), default=sys.stdin, help='input script file or stream from stdin')
 
     args = parser.parse_args()
 
