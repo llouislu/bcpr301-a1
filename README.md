@@ -55,6 +55,22 @@ optional arguments:
 
 ```
 
+## Tasks
+```
+Person          Task                    Difference
+Harit & Louis     • Interactive front-end           cmd
+Leo & Louis       • Supports piping and scripting       argparse
+Leo & Harit       • Command line switches           argparse
+Leo & Harit       • Parsed from configurable lookup table   ini
+Leo & Louis       • Parsed from configurable lookup table   yaml
+Harit & Louis     • Uses regular expressions in parser    regex
+Leo & Louis       • Uses generic parsing engine       peg
+Harit & Louis     • Outputs with Tkinter            tkinter
+Leo & Harit       • Outputs with turtle.py          turtle
+Louis & Harit     • Provide unittests             unitest
+Louis & Harit     • Amount of error trapping & handling         
+```
+
 ## High-Level Execution Flow
 
 run.py -> tigr/\_\_init\_\_.py -> tigr/lib/\<some source reader\> -> tigr/lib/\<some parser\> -> tigr/lib/drawer/\<some drawer\>
