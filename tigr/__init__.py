@@ -36,7 +36,7 @@ def main():
         prog='tigr', description="Tiny Interpreted Graphics language (TIGr)")
     group = parser.add_argument_group()
     group.add_argument('-i', '--interactive',
-                       action='store_true', default=False)
+                       action='store_true', default=False, help='go to interactive mode is this flag is set')
     group.add_argument('-c', '--config', action='store',
                        help='use configuration from a file', default='')
     group.add_argument('-p', '--parser', action='store',
