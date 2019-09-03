@@ -18,7 +18,7 @@ The structure of this project is similar to a typical Python package. Please ref
 
 
 ## Interface Diagram
-![interface diagram](/docs/diagram/interface.svg?raw=true "Logo Title Text 1")
+![interface diagram](/docs/diagram/interface.svg?sanitize=true)
 
 
 ```
