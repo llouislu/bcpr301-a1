@@ -1,0 +1,67 @@
+@startuml
+
+' note "needs one of those" as note1
+
+FileSourceReader *-- RegexParser
+FileSourceReader *-- PegParser
+PromptSourceReader *-- RegexParser
+PromptSourceReader *-- PegParser
+
+
+RegexParser *-- TurtleDrawer
+RegexParser *-- TkinterDrawer
+
+PegParser *-- TurtleDrawer
+PegParser *-- TkinterDrawer
+
+
+interface FileSourceReader <<AbstractSourceReader>> {
+    + <<constructor>> FileSourceReader(Parser parser, io.TextWrapper optional_file_name)
+    + go() : void
+}
+
+interface PromptSourceReader <<AbstractSourceReader>> {
+    + <<constructor>> PromptSourceReader(Parser parser)
+    + <<constructor>> PromptSourceReader(Parser parser, None optional_file_name)
+    + go() : void
+}
+
+interface RegexParser <<AbstractParser>> {
+    + <<constructor >> RegexParser(Drawer drawer)
+    + <<constructor >> RegexParser(Drawer drawer, dict pen_config)
+    + <<constructor >> RegexParser(Drawer drawer, None pen_config)
+    + parse(List raw_source) : void
+}
+
+interface PegParser <<AbstractParser>> {
+    + <<constructor >> PegParser(Drawer drawer)
+    + <<constructor >> RegexParser(Drawer drawer, dict pen_config)
+    + <<constructor >> RegexParser(Drawer drawer, None pen_config)
+    + parse(List raw_source) : void
+}
+
+interface TurtleDrawer <<AbstractDrawer>> {
+    + <<constructor >> TurtleDrawer()
+    + <<constructor >> TurtleDrawer(dict pen_config)
+    + <<constructor >> TurtleDrawer(None pen_config)
+    + select_pen(int pen_num) : void
+    + pen_down() : void
+    + pen_up() : void
+    + go_along(float along) : void
+    + go_down(float down) : void
+    + draw_line(str direction, float distance) : void
+}
+
+interface TkinterDrawer <<AbstractDrawer>> {
+    + <<constructor >> TkinterDrawer()
+    + <<constructor >> TkinterDrawer(dict pen_config)
+    + <<constructor >> TkinterDrawer(None pen_config)
+    + select_pen(int pen_num) : void
+    + pen_down() : void
+    + pen_up() : void
+    + go_along(float along) : void
+    + go_down(float down) : void
+    + draw_line(str direction, float distance) : void
+}
+
+@enduml

@@ -4,6 +4,23 @@ Interpreter Tiny Interpreted Graphics language package (TIGr)
 
 The structure of this project is similar to a typical Python package. Please refer to this [guide](https://docs.python-guide.org/writing/structure/) for more information.
 
+## Feature List
+* Interactive front-end
+* Supports piping and scripting
+* Command line switches
+* Parsed from configurable lookup table
+* Uses regular expressions in parser
+* Uses generic parsing engine
+* Outputs with Tkinter
+* Outputs with turtle.py
+* Provide unittests
+* Amount of error trapping & handling
+
+
+## Interface Diagram
+![interface diagram](/docs/diagram/interface.svg?raw=true "Logo Title Text 1")
+
+
 ```
 .
 ├── README.md
