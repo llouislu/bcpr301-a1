@@ -1,0 +1,31 @@
+[run]
+branch = True
+omit = 
+    *__init__*
+    *interface.py*
+include = 
+    *tigr/lib*
+
+[xml]
+output = cov.xml
+
+[report]
+exclude_lines = 
+# tkinter internal functions
+    def setheading
+    def forward
+    def bye
+    def speed
+    def go_to
+    def update
+    def _draw_line
+    def get_location
+    def heading
+# regex parser
+    def parse_line
+    def is_float
+    def draw
+# peg parser
+    class TigrVisitor
+# prompt source reader
+    self.cmdloop

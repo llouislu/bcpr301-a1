@@ -1,7 +1,4 @@
-import sys
-import os
 import unittest
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from tigr.lib.drawer.turtle_drawer import TurtleDrawer
 from tigr.lib.drawer.pen_config import pen_config as default_pen_config
 
@@ -10,6 +7,19 @@ class TestCasetTurtleDrawer(unittest.TestCase):
 
     def setUp(self):
         self.instance = TurtleDrawer()
+
+    def test_penconfig(self):
+        self.instance_with_vendor_config = TurtleDrawer(pen_config=default_pen_config)
+        self.assertTrue(
+            self.instance_with_vendor_config.pen_config)
+
+        user_pen_config = default_pen_config
+        user_pen_config['default'] = default_pen_config[6]
+        self.instance_user_config = TurtleDrawer(pen_config=user_pen_config)
+        self.assertTrue(
+            self.instance_user_config.pen_config['default']['color'] == 'green')
+        self.assertTrue(
+            self.instance_user_config.pen_config['default']['size'] == 10)
 
     def test_pencolor(self):
         self.instance.pencolor('red')
